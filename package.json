@@ -1,29 +1,25 @@
+
 {
-  "name": "বাংলা-ইআরপি-ড্যাশবোর্ড---এইচআরএম",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "bangla-erp-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Bangla ERP System",
   "scripts": {
-    "dev": "ng serve",
-    "build": "ng build",
-    "preview": "ng serve --configuration=production"
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
+  "private": true,
   "dependencies": {
-    "rxjs": "^7.8.2",
-    "@angular/compiler": "^21.0.0",
-    "@angular/platform-browser": "^21.0.0",
-    "@angular/core": "^21.0.0",
-    "@google/genai": "^1.34.0",
+    "@angular/common": "^21.0.6",
+    "@angular/core": "^21.0.6",
     "@angular/forms": "^21.0.6",
-    "@angular/common": "^21.0.0",
-    "@angular/build": "^21.0.0",
-    "@angular/cli": "^21.0.0",
-    "@angular/compiler-cli": "^21.0.0",
-    "tailwindcss": "latest"
+    "@angular/platform-browser": "^21.0.6",
+    "@google/genai": "^1.34.0",
+    "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0"
+    "@angular/compiler": "^21.0.6",
+    "typescript": "^5.5.2",
+    "vite": "^5.3.1"
   }
 }

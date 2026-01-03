@@ -1,20 +1,106 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# বাংলা ইআরপি সিস্টেম (Bangla ERP System)
 
-# Run and deploy your AI Studio app
+এটি একটি আধুনিক, পূর্ণাঙ্গ ইআরপি (Enterprise Resource Planning) সিস্টেম যা বাংলা ভাষায় তৈরি করা হয়েছে। এই সিস্টেমটি মানবসম্পদ ব্যবস্থাপনা (HRM), গ্রাহক সম্পর্ক ব্যবস্থাপনা (CRM), ইনভেন্টরি, চালান তৈরি এবং আরও অনেক কিছু সহজ করার জন্য ডিজাইন করা হয়েছে। এতে কৃত্রিম বুদ্ধিমত্তার (AI) জন্য Google Gemini API ব্যবহার করা হয়েছে।
 
-This contains everything you need to run your app locally.
+## ✨ বৈশিষ্ট্য (Features)
 
-View your app in AI Studio: https://ai.studio/apps/drive/1yoB546SZK3w-GFj5FNmiLF921V-T8PKO
+- **ড্যাশবোর্ড:** ব্যবসার সার্বিক অবস্থার একটি ভিজ্যুয়াল চিত্র।
+- **এইচআরএম সিস্টেম:** Google Gemini ব্যবহার করে চাকরির বিবরণ এবং প্রয়োজনীয়তা তৈরি।
+- **ইউজার ম্যানেজমেন্ট:** অ্যাডমিন কর্তৃক ব্যবহারকারী তৈরি, সম্পাদনা এবং ভূমিকা নির্ধারণ।
+- **সিআরএম:** কানবান বোর্ডের মাধ্যমে লিড ব্যবস্থাপনা।
+- **প্রজেক্ট ম্যানেজমেন্ট:** প্রজেক্টের অগ্রগতি এবং দলের সদস্যদের ট্র্যাক করা।
+- **ইনভয়েস জেনারেটর:** Gemini AI ব্যবহার করে স্বয়ংক্রিয়ভাবে নোটসহ চালান তৈরি।
+- **ইনভেন্টরি ম্যানেজমেন্ট:** পণ্যের স্টক এবং মূল্য পরিচালনা।
+- **POS সিস্টেম:** দ্রুত পণ্য বিক্রয় এবং বিলিং।
+- **সেটিংস:** সিস্টেমের বিভিন্ন মডিউল সক্রিয় বা নিষ্ক্রিয় করার সুবিধা।
 
-## Run Locally
+## 💻 প্রযুক্তি স্ট্যাক (Technology Stack)
 
-**Prerequisites:**  Node.js
+- **ফ্রন্টএন্ড:**
+  - Angular (Signal-based & Standalone Components)
+  - TypeScript
+  - Tailwind CSS
+  - Vite (ডেভলপমেন্ট সার্ভার)
+- **ব্যাকএন্ড:**
+  - Node.js
+  - Express.js
+  - Sequelize (ORM)
+  - MySQL (ডাটাবেস)
+- **এআই (AI):**
+  - Google Gemini API
 
+## 🚀 কিভাবে চালাবেন (Setup and Installation)
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+এই প্রজেক্টটি চালানোর জন্য আপনার কম্পিউটারে নিচের সফটওয়্যারগুলো ইনস্টল করা থাকতে হবে:
+- Git
+- Node.js (LTS ভার্সন)
+- MySQL সার্ভার (যেমন XAMPP, WAMP)
+
+### ধাপ ১: রিপোজিটরিটি ক্লোন করুন
+
+```bash
+git clone https://github.com/your-username/bangla-erp.git
+cd bangla-erp
+```
+*দ্রষ্টব্য: `your-username/bangla-erp.git` এর পরিবর্তে আপনার নিজের রিপোজিটরির URL ব্যবহার করুন।*
+
+### ধাপ ২: ডাটাবেস তৈরি করুন
+
+আপনার MySQL সার্ভারে `bangla_erp_db` নামে একটি নতুন ডাটাবেস তৈরি করুন।
+
+### ধাপ ৩: ব্যাকএন্ড সেটআপ
+
+1.  **`backend` ফোল্ডারে যান:**
+    ```bash
+    cd backend
+    ```
+
+2.  **`.env` ফাইল তৈরি করুন:**
+    `backend/.env.example` ফাইলটিকে কপি করে `backend/.env` নামে একটি নতুন ফাইল তৈরি করুন এবং আপনার MySQL ডাটাবেসের তথ্য দিয়ে এটি পূরণ করুন।
+    ```env
+    # Server Configuration
+    PORT=8080
+
+    # JWT Secret Key
+    JWT_SECRET=your_super_secret_jwt_key
+
+    # Database Configuration
+    DB_HOST=localhost
+    DB_USER=root
+    DB_PASSWORD=your_mysql_password
+    DB_NAME=bangla_erp_db
+    DB_DIALECT=mysql
+    ```
+
+3.  **প্যাকেজ ইনস্টল করুন:**
+    ```bash
+    npm install
+    ```
+
+4.  **সার্ভার চালু করুন:**
+    ```bash
+    npm run dev
+    ```
+    সার্ভারটি `http://localhost:8080` এ চলবে।
+
+### ধাপ ৪: ফ্রন্টএন্ড সেটআপ
+
+1.  **রুট ফোল্ডারে ফিরে আসুন এবং প্যাকেজ ইনস্টল করুন:**
+    ```bash
+    cd ..
+    npm install
+    ```
+2.  **`.env` ফাইল তৈরি করুন:**
+    প্রজেক্টের রুট ফোল্ডারে `.env.example` ফাইলটিকে কপি করে `.env` নামে একটি নতুন ফাইল তৈরি করুন এবং আপনার Google Gemini API কী যোগ করুন।
+    ```env
+    # Gemini API Key
+    API_KEY=your_gemini_api_key_here
+    ```
+
+3.  **ডেভলপমেন্ট সার্ভার চালু করুন:**
+    ```bash
+    npm start
+    ```
+    অ্যাপ্লিকেশনটি স্বয়ংক্রিয়ভাবে আপনার ব্রাউজারে `http://localhost:4200` এ খুলবে।
+
+এখন আপনি অ্যাপ্লিকেশনটি ব্যবহার করার জন্য প্রস্তুত!
