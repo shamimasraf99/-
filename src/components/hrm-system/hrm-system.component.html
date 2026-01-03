@@ -1,0 +1,115 @@
+<div>
+  <div class="flex justify-between items-center mb-4">
+    <div>
+      <h1 class="text-2xl font-bold">নতুন জব তৈরি করুন</h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400">ড্যাশবোর্ড / জব / জব তৈরি</p>
+    </div>
+    <button class="px-6 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition-colors">তৈরি করুন</button>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Main Job Details Card -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-medium mb-1">জবের শিরোনাম</label>
+            <input type="text" [(ngModel)]="jobTitle" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 focus:ring-green-500 focus:border-green-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">ব্রাঞ্চ</label>
+            <select class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 focus:ring-green-500 focus:border-green-500">
+              <option>সকল</option>
+              <option>ঢাকা</option>
+              <option>চট্টগ্রাম</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">ক্যাটাগরি</label>
+            <select class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 focus:ring-green-500 focus:border-green-500">
+              <option>প্রযুক্তি</option>
+              <option>মার্কেটিং</option>
+              <option>ম্যানেজমেন্ট</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">পদ সংখ্যা</label>
+            <input type="number" value="1" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 focus:ring-green-500 focus:border-green-500">
+          </div>
+           <div>
+            <label class="block text-sm font-medium mb-1">স্ট্যাটাস</label>
+            <select class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 focus:ring-green-500 focus:border-green-500">
+              <option>সক্রিয়</option>
+              <option>নিষ্ক্রিয়</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">আবেদনের শেষ তারিখ</label>
+            <input type="date" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 focus:ring-green-500 focus:border-green-500">
+          </div>
+        </div>
+      </div>
+
+      <!-- Job Description Card -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
+        <div class="p-4 border-b dark:border-gray-700 flex justify-between items-center">
+          <h3 class="font-semibold">জবের বিবরণ</h3>
+          <button (click)="generateDescription()" [disabled]="isGeneratingDesc() || !jobTitle()" class="px-3 py-1 bg-blue-500 text-white text-xs font-semibold rounded-md hover:bg-blue-600 disabled:bg-blue-300 flex items-center">
+            @if(isGeneratingDesc()) {
+              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+              <span>জেনারেট হচ্ছে...</span>
+            } @else {
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" /></svg>
+              <span>AI দ্বারা তৈরি করুন</span>
+            }
+          </button>
+        </div>
+        <div class="p-4">
+          <textarea [(ngModel)]="jobDescription" rows="8" placeholder="এখানে জবের বিবরণ লিখুন..." class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 focus:ring-green-500 focus:border-green-500"></textarea>
+        </div>
+      </div>
+
+      <!-- Job Requirement Card -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
+         <div class="p-4 border-b dark:border-gray-700 flex justify-between items-center">
+          <h3 class="font-semibold">জবের প্রয়োজনীয়তা</h3>
+          <button (click)="generateRequirement()" [disabled]="isGeneratingReq() || !jobTitle()" class="px-3 py-1 bg-blue-500 text-white text-xs font-semibold rounded-md hover:bg-blue-600 disabled:bg-blue-300 flex items-center">
+            @if(isGeneratingReq()) {
+              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+              <span>জেনারেট হচ্ছে...</span>
+            } @else {
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" /></svg>
+              <span>AI দ্বারা তৈরি করুন</span>
+            }
+          </button>
+        </div>
+        <div class="p-4">
+          <textarea [(ngModel)]="jobRequirement" rows="8" placeholder="এখানে প্রয়োজনীয়তা লিখুন..." class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 focus:ring-green-500 focus:border-green-500"></textarea>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Side Cards -->
+    <div class="space-y-6">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h3 class="font-semibold mb-3">জিজ্ঞাসা করতে হবে?</h3>
+        <div class="space-y-2">
+          <label class="flex items-center"><input type="checkbox" class="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500" checked> <span class="ml-2 text-sm">লিঙ্গ</span></label>
+          <label class="flex items-center"><input type="checkbox" class="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500"> <span class="ml-2 text-sm">জন্ম তারিখ</span></label>
+          <label class="flex items-center"><input type="checkbox" class="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500"> <span class="ml-2 text-sm">দেশ</span></label>
+        </div>
+        <h3 class="font-semibold mt-4 mb-2">কাস্টম প্রশ্ন</h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400">আপনার দুর্বলতা কী বলে মনে করেন?</p>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h3 class="font-semibold mb-3">দেখাতে হবে?</h3>
+        <div class="space-y-2">
+          <label class="flex items-center"><input type="checkbox" class="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500" checked> <span class="ml-2 text-sm">প্রোফাইল ছবি</span></label>
+          <label class="flex items-center"><input type="checkbox" class="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500" checked> <span class="ml-2 text-sm">সিভি</span></label>
+          <label class="flex items-center"><input type="checkbox" class="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500"> <span class="ml-2 text-sm">কভার লেটার</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

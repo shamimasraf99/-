@@ -1,0 +1,94 @@
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-8rem)]">
+
+  <!-- Products Section -->
+  <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow p-4 overflow-y-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold">পণ্য তালিকা</h2>
+      <input type="text" placeholder="অনুসন্ধান করুন..." class="w-1/2 md:w-1/3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 text-sm focus:ring-green-500 focus:border-green-500">
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
+      @for(product of products(); track product.id) {
+        <div (click)="addToCart(product)" class="cursor-pointer group border dark:border-gray-700 rounded-lg hover:shadow-lg transition-shadow duration-300">
+          <div class="aspect-square overflow-hidden">
+             <img [src]="product.imageUrl" [alt]="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+          </div>
+          <div class="p-2 text-center">
+            <h3 class="text-sm font-semibold truncate">{{ product.name }}</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400">৳{{ product.price | number:'1.2-2' }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Cart & Billing Section -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col">
+    <h2 class="text-xl font-bold border-b dark:border-gray-700 pb-2 mb-4">বিলিং</h2>
+
+    @if(paymentSuccess()) {
+      <div class="flex-grow flex flex-col items-center justify-center text-center p-4 bg-green-50 dark:bg-green-900/50 rounded-lg">
+          <svg class="h-16 w-16 text-green-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h3 class="text-lg font-semibold text-green-800 dark:text-green-300">পেমেন্ট সফল হয়েছে!</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">ধন্যবাদ।</p>
+      </div>
+    } @else {
+      <!-- Cart Items -->
+      <div class="flex-grow overflow-y-auto -mr-4 pr-4">
+        @if(cartItems().length === 0) {
+            <div class="flex items-center justify-center h-full">
+                <p class="text-gray-500 dark:text-gray-400">আপনার কার্ট খালি।</p>
+            </div>
+        } @else {
+            <ul class="space-y-3">
+            @for(item of cartItems(); track item.id) {
+                <li class="flex items-center space-x-3">
+                <img [src]="item.imageUrl" [alt]="item.name" class="w-12 h-12 rounded-md object-cover">
+                <div class="flex-grow">
+                    <p class="text-sm font-semibold">{{item.name}}</p>
+                    <p class="text-xs text-gray-500">৳{{item.price | number:'1.2-2'}}</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button (click)="updateQuantity(item, -1)" class="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">-</button>
+                    <span class="w-6 text-center font-medium">{{item.quantity}}</span>
+                    <button (click)="updateQuantity(item, 1)" class="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">+</button>
+                </div>
+                <button (click)="removeItem(item.id)" class="text-red-500 hover:text-red-700 ml-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                </li>
+            }
+            </ul>
+        }
+      </div>
+
+      <!-- Billing Summary -->
+      <div class="border-t dark:border-gray-700 pt-4 mt-4 space-y-2 text-sm">
+        <div class="flex justify-between">
+          <span>সাব-টোটাল</span>
+          <span class="font-medium">৳{{ subtotal() | number:'1.2-2' }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span>ট্যাক্স ({{taxRate() * 100}}%)</span>
+          <span class="font-medium">৳{{ taxAmount() | number:'1.2-2' }}</span>
+        </div>
+        <div class="flex justify-between text-lg font-bold">
+          <span>সর্বমোট</span>
+          <span>৳{{ total() | number:'1.2-2' }}</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="mt-6">
+        <button (click)="processPayment()" [disabled]="cartItems().length === 0" class="w-full py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+          অর্ডার করুন
+        </button>
+        <button (click)="clearCart()" class="w-full py-2 mt-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/50 rounded-lg transition-colors">
+          কার্ট খালি করুন
+        </button>
+      </div>
+    }
+  </div>
+</div>

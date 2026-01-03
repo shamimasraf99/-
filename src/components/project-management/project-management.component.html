@@ -1,0 +1,49 @@
+<div>
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-3xl font-bold">প্রজেক্ট ম্যানেজমেন্ট</h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400">আপনার সকল প্রজেক্ট এক জায়গায় দেখুন।</p>
+    </div>
+    <button class="px-4 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition-colors flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+      নতুন প্রজেক্ট
+    </button>
+  </div>
+
+  <!-- Projects Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    @for(project of projects(); track project.id) {
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="font-bold text-lg">{{ project.name }}</h3>
+            <span class="text-xs font-semibold px-2 py-1 rounded-full" [class]="getStatusClass(project.status)">
+              {{ project.status }}
+            </span>
+          </div>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            শেষ তারিখ: {{ project.dueDate }}
+          </p>
+        </div>
+        <div>
+            <div class="flex justify-between items-center mb-1">
+                <span class="text-sm">অগ্রগতি</span>
+                <span class="text-sm font-semibold">{{project.progress}}%</span>
+            </div>
+            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                <div class="h-2.5 rounded-full" [class]="getProgressClass(project.progress)" [style.width.%]="project.progress"></div>
+            </div>
+            <div class="flex justify-between items-center mt-4">
+                <div class="flex -space-x-2">
+                    @for(member of project.team; track $index) {
+                        <img class="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800" [src]="member" alt="Team member">
+                    }
+                </div>
+                 <button class="text-sm text-indigo-600 hover:underline dark:text-indigo-400">বিস্তারিত</button>
+            </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

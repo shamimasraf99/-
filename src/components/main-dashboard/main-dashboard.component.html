@@ -1,0 +1,81 @@
+<div>
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-3xl font-bold">ড্যাশবোর্ড</h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400">আপনার ব্যবসার সম্পূর্ণ চিত্র এক নজরে।</p>
+    </div>
+    <button class="px-4 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition-colors flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+        নতুন রিপোর্ট
+    </button>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    @for(stat of stats(); track stat.title) {
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex items-center space-x-4">
+            <div class="p-3 rounded-full bg-gray-100 dark:bg-gray-700" [class]="stat.color">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="stat.icon"></path></svg>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ stat.title }}</p>
+                <p class="text-2xl font-bold">{{ stat.value }}</p>
+                <p class="text-xs" [class.text-green-500]="stat.changeType === 'increase'" [class.text-red-500]="stat.changeType === 'decrease'">
+                    {{ stat.change }} গত মাস থেকে
+                </p>
+            </div>
+        </div>
+    }
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+    <!-- Monthly Income Chart -->
+    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <h3 class="font-bold mb-4">মাসিক আয়</h3>
+      <div class="h-72 flex items-end justify-around space-x-2">
+        @for(data of chartData(); track data.month) {
+            <div class="relative flex flex-col items-center flex-grow">
+                <div class="absolute -top-6 text-xs font-semibold text-gray-700 dark:text-gray-300">৳{{data.income / 1000}}k</div>
+                <div class="w-full bg-green-500 rounded-t-md" [style.height.%]="getBarHeight(data.income)" title="৳{{data.income}}"></div>
+                <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{data.month}}</div>
+            </div>
+        }
+      </div>
+    </div>
+    
+    <!-- Recent Activities -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <h3 class="font-bold mb-4">সাম্প্রতিক কার্যক্রম</h3>
+      <ul class="space-y-4">
+        @for(activity of activities(); track activity.text) {
+          <li class="flex items-start space-x-3">
+            <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-full text-gray-500 dark:text-gray-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="activity.icon"></path></svg>
+            </div>
+            <div>
+              <p class="text-sm" [innerHTML]="activity.text"></p>
+              <p class="text-xs text-gray-400">{{activity.time}}</p>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+    
+     <!-- Today's Tasks -->
+    <div class="lg:col-span-3 bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+       <h3 class="font-bold mb-4">আজকের টাস্ক</h3>
+       <ul class="space-y-3">
+         @for(task of tasks(); track $index) {
+            <li class="flex items-center">
+                <input type="checkbox" [checked]="task.done" (change)="toggleTask($index)" class="h-5 w-5 rounded border-gray-300 text-green-600 focus:ring-green-500 cursor-pointer">
+                <label class="ml-3 text-sm" [class.line-through]="task.done" [class.text-gray-500]="task.done">{{task.text}}</label>
+            </li>
+         }
+       </ul>
+    </div>
+
+  </div>
+</div>

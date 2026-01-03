@@ -1,0 +1,88 @@
+<div>
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-3xl font-bold">সেটিংস</h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400">আপনার সিস্টেমের কনফিগারেশন পরিচালনা করুন।</p>
+    </div>
+    <button class="px-6 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition-colors">সংরক্ষণ করুন</button>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+      <!-- General Settings -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h3 class="text-xl font-bold mb-4">সাধারণ সেটিংস</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">কোম্পানির নাম</label>
+            <input type="text" [(ngModel)]="companyName" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 focus:ring-green-500 focus:border-green-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">কোম্পানির ইমেইল</label>
+            <input type="email" [(ngModel)]="companyEmail" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md p-2 focus:ring-green-500 focus:border-green-500">
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification Settings -->
+       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h3 class="text-xl font-bold mb-4">নোটিফিকেশন সেটিংস</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 rounded-md bg-gray-50 dark:bg-gray-700/50">
+            <span class="font-medium">ইমেইল নোটিফিকেশন</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" [(ngModel)]="emailNotifications" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+            </label>
+          </div>
+           <div class="flex items-center justify-between p-3 rounded-md bg-gray-50 dark:bg-gray-700/50">
+            <span class="font-medium">এসএমএস নোটিফিকেশন</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" [(ngModel)]="smsNotifications" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+       <!-- Module Management -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h3 class="text-xl font-bold mb-4">মডিউল ম্যানেজমেন্ট</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">প্রয়োজন অনুযায়ী মডিউল অন বা অফ করুন। পরিবর্তনগুলো সাইডবারে প্রতিফলিত হবে।</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            @for (module of modules(); track module.id) {
+            <div class="flex items-center justify-between p-3 rounded-md bg-gray-50 dark:bg-gray-700/50">
+                <span class="font-medium text-sm">{{ module.label }}</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" [checked]="module.enabled" (change)="onModuleToggle(module.id)" class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+                </label>
+            </div>
+            }
+        </div>
+      </div>
+    </div>
+    
+    <!-- Payment Gateway Settings -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <h3 class="text-xl font-bold mb-4">পেমেন্ট গেটওয়ে</h3>
+      <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 rounded-md bg-gray-50 dark:bg-gray-700/50">
+            <span class="font-medium">Stripe</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" [(ngModel)]="stripeEnabled" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+            </label>
+          </div>
+           <div class="flex items-center justify-between p-3 rounded-md bg-gray-50 dark:bg-gray-700/50">
+            <span class="font-medium">PayPal</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" [(ngModel)]="paypalEnabled" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+            </label>
+          </div>
+      </div>
+    </div>
+
+  </div>
+</div>
