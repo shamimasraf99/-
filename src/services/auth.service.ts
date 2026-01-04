@@ -19,15 +19,12 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private http: HttpClient;
-  private apiUrl = 'http://localhost:8080';
+  private http = inject(HttpClient);
 
   isAuthenticated: WritableSignal<boolean> = signal(false);
   currentUser: WritableSignal<User | null> = signal(null);
 
   constructor() {
-    // Fix: Inject HttpClient within the constructor to ensure correct injection context.
-    this.http = inject(HttpClient);
     // Check for persisted login state
     if (typeof window !== 'undefined') {
         const token = localStorage.getItem('auth_token');
@@ -42,8 +39,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/api/auth/login`, { email, password }).pipe(
-      // FIX: Explicitly type the response to LoginResponse to fix a type inference issue.
+    return this.http.post<LoginResponse>('/api/auth/login', { email, password }).pipe(
       tap((response: LoginResponse) => {
         this.handleAuthentication(response.token, response.user);
       })
@@ -52,7 +48,7 @@ export class AuthService {
 
   logout(): void {
     // Optional: Inform backend about logout
-    this.http.post(`${this.apiUrl}/api/auth/logout`, {}).subscribe();
+    this.http.post('/api/auth/logout', {}).subscribe();
     this.clearAuthentication();
   }
 

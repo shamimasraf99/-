@@ -17,8 +17,7 @@ export interface Lead {
   providedIn: 'root'
 })
 export class CrmService {
-  private http: HttpClient;
-  private apiUrl = 'http://localhost:8080';
+  private http = inject(HttpClient);
 
   private allLeadsSignal: WritableSignal<Lead[]> = signal([
     { id: 1, title: 'নতুন ওয়েবসাইট ডিজাইন', company: 'এবিসি কর্পোরেশন', value: 150000, ownerAvatar: 'https://picsum.photos/id/1005/32', status: 'নতুন লিড' },
@@ -30,7 +29,6 @@ export class CrmService {
   ]);
 
   constructor() {
-    this.http = inject(HttpClient);
     this.loadLeads();
   }
 
@@ -48,7 +46,7 @@ export class CrmService {
   
   private loadLeads(): void {
       const headers = this.getAuthHeaders();
-      this.http.get<Lead[]>(`${this.apiUrl}/api/leads`, { headers }).pipe(
+      this.http.get<Lead[]>(`/api/leads`, { headers }).pipe(
           catchError(error => {
               console.error('Error fetching leads, using mock data.', error);
               return of(null);

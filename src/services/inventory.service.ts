@@ -16,8 +16,7 @@ export interface InventoryItem {
   providedIn: 'root'
 })
 export class InventoryService {
-  private http: HttpClient;
-  private apiUrl = 'http://localhost:8080';
+  private http = inject(HttpClient);
 
   private inventoryItemsSignal: WritableSignal<InventoryItem[]> = signal([
     { id: 1, productName: 'ল্যাপটপ ব্যাগ', sku: 'LP-BG-001', category: 'এক্সেসরিজ', stock: 120, price: 1500 },
@@ -29,7 +28,6 @@ export class InventoryService {
   ]);
 
   constructor() {
-    this.http = inject(HttpClient);
     this.loadInventoryItems();
   }
   
@@ -47,7 +45,7 @@ export class InventoryService {
 
   private loadInventoryItems(): void {
     const headers = this.getAuthHeaders();
-    this.http.get<InventoryItem[]>(`${this.apiUrl}/api/inventory`, { headers }).pipe(
+    this.http.get<InventoryItem[]>(`/api/inventory`, { headers }).pipe(
         catchError(error => {
             console.error('Error fetching inventory items, using mock data.', error);
             return of(null);

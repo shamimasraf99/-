@@ -17,8 +17,7 @@ export interface Project {
   providedIn: 'root'
 })
 export class ProjectService {
-  private http: HttpClient;
-  private apiUrl = 'http://localhost:8080';
+  private http = inject(HttpClient);
 
   private projectsSignal: WritableSignal<Project[]> = signal([
     { id: 1, name: 'ইআরপি সিস্টেম ডেভেলপমেন্ট', status: 'চলমান', progress: 75, team: ['https://picsum.photos/id/1005/32', 'https://picsum.photos/id/1011/32', 'https://picsum.photos/id/1012/32'], dueDate: 'আগস্ট ৩১, ২০২৪' },
@@ -29,7 +28,6 @@ export class ProjectService {
   ]);
   
   constructor() {
-    this.http = inject(HttpClient);
     this.loadProjects();
   }
   
@@ -47,7 +45,7 @@ export class ProjectService {
 
   private loadProjects(): void {
     const headers = this.getAuthHeaders();
-    this.http.get<Project[]>(`${this.apiUrl}/api/projects`, { headers }).pipe(
+    this.http.get<Project[]>(`/api/projects`, { headers }).pipe(
         catchError(error => {
             console.error('Error fetching projects, using mock data.', error);
             return of(null);

@@ -23,8 +23,7 @@ export interface NewUser {
   providedIn: 'root'
 })
 export class UserService {
-  private http: HttpClient;
-  private apiUrl = 'http://localhost:8080';
+  private http = inject(HttpClient);
 
   // Initial mock data as fallback
   private usersSignal: WritableSignal<User[]> = signal([
@@ -36,7 +35,6 @@ export class UserService {
   ]);
 
   constructor() {
-    this.http = inject(HttpClient);
     this.loadUsers();
   }
   
@@ -54,7 +52,7 @@ export class UserService {
 
   private loadUsers(): void {
     const headers = this.getAuthHeaders();
-    this.http.get<User[]>(`${this.apiUrl}/api/users`, { headers }).pipe(
+    this.http.get<User[]>(`/api/users`, { headers }).pipe(
       catchError(error => {
         console.error('Error fetching users, using mock data.', error);
         return of(null); // Return null on error
@@ -68,7 +66,7 @@ export class UserService {
   
   addUser(userData: NewUser): Observable<User> {
     const headers = this.getAuthHeaders();
-    return this.http.post<User>(`${this.apiUrl}/api/users`, userData, { headers }).pipe(
+    return this.http.post<User>(`/api/users`, userData, { headers }).pipe(
       tap(newUser => {
         this.usersSignal.update(users => [...users, newUser]);
       }),
@@ -81,7 +79,7 @@ export class UserService {
 
   updateUser(userToUpdate: User): Observable<User> {
     const headers = this.getAuthHeaders();
-    return this.http.put<User>(`${this.apiUrl}/api/users/${userToUpdate.id}`, userToUpdate, { headers }).pipe(
+    return this.http.put<User>(`/api/users/${userToUpdate.id}`, userToUpdate, { headers }).pipe(
         tap(updatedUser => {
             this.usersSignal.update(users => 
                 users.map(u => u.id === updatedUser.id ? updatedUser : u)

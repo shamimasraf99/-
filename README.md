@@ -91,10 +91,10 @@ cd bangla-erp
     npm install
     ```
 2.  **`.env` ফাইল তৈরি করুন:**
-    প্রজেক্টের রুট ফোল্ডারে `.env.example` ফাইলটিকে কপি করে `.env` নামে একটি নতুন ফাইল তৈরি করুন এবং আপনার Google Gemini API কী যোগ করুন।
+    প্রজেক্টের রুট ফোল্ডারে `.env.example` ফাইলটিকে কপি করে `.env` নামে একটি নতুন ফাইল তৈরি করুন এবং আপনার Google Gemini API কী যোগ করুন। **লক্ষ্য করুন:** ভেরিয়েবলের নাম অবশ্যই `VITE_` দিয়ে শুরু হতে হবে।
     ```env
-    # Gemini API Key
-    API_KEY=your_gemini_api_key_here
+    # Gemini API Key (Must start with VITE_)
+    VITE_API_KEY=your_gemini_api_key_here
     ```
 
 3.  **ডেভলপমেন্ট সার্ভার চালু করুন:**
